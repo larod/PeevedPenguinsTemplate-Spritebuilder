@@ -213,8 +213,8 @@
 					<string>Point</string>
 					<key>value</key>
 					<array>
-						<real>34.208736419677734</real>
-						<real>138.91242980957031</real>
+						<real>14</real>
+						<real>150</real>
 					</array>
 				</dict>
 				<dict>
@@ -246,7 +246,7 @@
 					<string>EnabledFloat</string>
 					<key>value</key>
 					<array>
-						<real>64.241935729980469</real>
+						<real>50</real>
 						<true/>
 					</array>
 				</dict>
