@@ -70,7 +70,7 @@
         
         // follow the flying penguin
         CCActionFollow *follow = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
-        [_currentPenguin runAction:follow];
+        [_contentNode runAction:follow];
         // releases the joint and lets the catapult snap back
         [_mouseJoint invalidate];
         _mouseJoint = nil;
