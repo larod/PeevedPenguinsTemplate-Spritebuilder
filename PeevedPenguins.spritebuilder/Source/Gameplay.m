@@ -13,8 +13,7 @@ static const float MIN_SPEED = 5.f;
 }
 
 // is called when CCB file has completed loading
-- (void)didLoadFromCCB
-{
+- (void)didLoadFromCCB {
     
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
@@ -29,18 +28,14 @@ static const float MIN_SPEED = 5.f;
     _mouseJointNode.physicsBody.collisionMask = @[];
     _physicsNode.collisionDelegate = self;
 }
-
-- (void)nextAttempt
-{
+- (void)nextAttempt {
     _currentPenguin = nil;
     [_contentNode stopAction:_followPenguin];
     
     CCActionMoveTo *actionMoveTo = [CCActionMoveTo actionWithDuration:1.f position:ccp(0, 0)];
     [_contentNode runAction:actionMoveTo];
 }
-
-- (void)update:(CCTime)delta
-{
+- (void)update:(CCTime)delta {
     if (_currentPenguin.launched) {
         // if speed is below minimum speed, assume this attempt is over
         if (ccpLength(_currentPenguin.physicsBody.velocity) < MIN_SPEED){
@@ -63,9 +58,7 @@ static const float MIN_SPEED = 5.f;
         }
     }
 }
-
-- (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB
-{
+- (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB {
     float energy = [pair totalKineticEnergy];
     
     // if energy is large enough, remove the seal
@@ -75,9 +68,7 @@ static const float MIN_SPEED = 5.f;
         } key:nodeA];
     }
 }
-
-- (void)sealRemoved:(CCNode *)seal
-{
+- (void)sealRemoved:(CCNode *)seal {
     // load particle effect
     CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
     // make the particle effect clean itself up, once it is completed
@@ -90,10 +81,8 @@ static const float MIN_SPEED = 5.f;
     // finally, remove the destroyed seal
     [seal removeFromParent];
 }
-
 // called on every touch in this scene
--(void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
-{
+-(void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     CGPoint touchLocation = [touch locationInNode:_contentNode];
     CCLOG(@"Content node touched.");
     
@@ -120,16 +109,12 @@ static const float MIN_SPEED = 5.f;
         _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultArm.physicsBody anchorA:ccp(0, 0) anchorB:ccp(34, 138) restLength:0.f stiffness:3000.f damping:150.f];
     }
 }
-
-- (void)touchMoved:(UITouch *)touch withEvent:(UIEvent *)event
-{
+- (void)touchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
     // whenever touches move, update the position of the mouseJointNode to the touch position
     CGPoint touchLocation = [touch locationInNode:_contentNode];
     _mouseJointNode.position = touchLocation;
 }
-
-- (void)releaseCatapult
-{
+- (void)releaseCatapult {
     if (_mouseJoint != nil)
     {
         // releases the joint and lets the penguin fly
@@ -149,21 +134,15 @@ static const float MIN_SPEED = 5.f;
         _mouseJoint = nil;
     }
 }
-
--(void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
-{
+-(void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
     // when touches end, meaning the user releases their finger, release the catapult
     [self releaseCatapult];
 }
-
--(void) touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event
-{
+-(void) touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
     // when touches are cancelled, meaning the user drags their finger off the screen or onto something else, release the catapult
     [self releaseCatapult];
 }
-
-- (void)launchPenguin
-{
+- (void)launchPenguin {
     // loads the Penguin.ccb we have set up in Spritebuilder
     CCNode* penguin = [CCBReader load:@"Penguin"];
     // position the penguin at the bowl of the catapult
@@ -182,9 +161,7 @@ static const float MIN_SPEED = 5.f;
     CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin worldBoundary:self.boundingBox];
     [_contentNode runAction:follow];
 }
-
-- (void)retry
-{
+- (void)retry {
     // reload this level
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
 }
