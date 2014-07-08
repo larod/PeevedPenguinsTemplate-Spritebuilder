@@ -13,7 +13,8 @@ static const float MIN_SPEED = 5.f;
 }
 
 // is called when CCB file has completed loading
-- (void)didLoadFromCCB {
+- (void)didLoadFromCCB
+{
     
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
@@ -29,7 +30,8 @@ static const float MIN_SPEED = 5.f;
     _physicsNode.collisionDelegate = self;
 }
 
-- (void)nextAttempt {
+- (void)nextAttempt
+{
     _currentPenguin = nil;
     [_contentNode stopAction:_followPenguin];
     
@@ -62,7 +64,8 @@ static const float MIN_SPEED = 5.f;
     }
 }
 
-- (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB {
+- (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB
+{
     float energy = [pair totalKineticEnergy];
     
     // if energy is large enough, remove the seal
@@ -73,7 +76,8 @@ static const float MIN_SPEED = 5.f;
     }
 }
 
-- (void)sealRemoved:(CCNode *)seal {
+- (void)sealRemoved:(CCNode *)seal
+{
     // load particle effect
     CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
     // make the particle effect clean itself up, once it is completed
@@ -91,6 +95,7 @@ static const float MIN_SPEED = 5.f;
 -(void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
     CGPoint touchLocation = [touch locationInNode:_contentNode];
+    CCLOG(@"Content node touched.");
     
     // start catapult dragging when a touch inside of the catapult arm occurs
     if (CGRectContainsPoint([_catapultArm boundingBox], touchLocation))
@@ -123,7 +128,8 @@ static const float MIN_SPEED = 5.f;
     _mouseJointNode.position = touchLocation;
 }
 
-- (void)releaseCatapult {
+- (void)releaseCatapult
+{
     if (_mouseJoint != nil)
     {
         // releases the joint and lets the penguin fly
@@ -156,7 +162,8 @@ static const float MIN_SPEED = 5.f;
     [self releaseCatapult];
 }
 
-- (void)launchPenguin {
+- (void)launchPenguin
+{
     // loads the Penguin.ccb we have set up in Spritebuilder
     CCNode* penguin = [CCBReader load:@"Penguin"];
     // position the penguin at the bowl of the catapult
@@ -176,7 +183,8 @@ static const float MIN_SPEED = 5.f;
     [_contentNode runAction:follow];
 }
 
-- (void)retry {
+- (void)retry
+{
     // reload this level
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
 }
